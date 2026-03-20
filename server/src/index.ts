@@ -35,8 +35,8 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Serve React client static files (client/dist is two levels up from server/dist)
-const clientDist = path.join(__dirname, '../../client/dist');
+// Serve React client static files (copied into dist/public during build)
+const clientDist = path.join(__dirname, 'public');
 app.use(express.static(clientDist));
 
 // Catch-all: serve index.html for any unmatched route (supports React client-side routing)
