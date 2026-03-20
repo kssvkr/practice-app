@@ -3,6 +3,7 @@ import { useState, type ChangeEvent } from 'react';
 export default function FileControls() {
   const [singleFile, setSingleFile] = useState<File | null>(null);
   const [multipleFiles, setMultipleFiles] = useState<File[]>([]);
+  const [downloading, setDownloading] = useState(false);
 
   const handleSingleFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) setSingleFile(e.target.files[0]);
@@ -10,6 +11,26 @@ export default function FileControls() {
 
   const handleMultipleFiles = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) setMultipleFiles(Array.from(e.target.files));
+  };
+
+  const handleDownload = async () => {
+    setDownloading(true);
+    try {
+      const res = await fetch('/api/upload/download-sample');
+      if (!res.ok) throw new Error('Download failed');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'sample-download.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      alert('Could not download the file. Is the server running?');
+    }
+    setDownloading(false);
   };
 
   return (
@@ -75,6 +96,22 @@ export default function FileControls() {
         </div>
 
 
+      </div>
+
+      {/* Download Section */}
+      <div className="card mt-16" data-testid="download-card">
+        <h3 className="card__title">File Download</h3>
+        <p className="help-text mb-16">Download a sample text file to practice file download automation.</p>
+        <button
+          onClick={handleDownload}
+          disabled={downloading}
+          className="btn btn-primary"
+          data-testid="download-btn"
+          aria-label="Download Sample File"
+          title="Download Sample File"
+        >
+          {downloading ? 'Downloading...' : '⬇️ Download Sample Text File'}
+        </button>
       </div>
     </div>
   );

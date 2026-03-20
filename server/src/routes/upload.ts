@@ -72,4 +72,12 @@ router.post('/multiple', upload.array('files', 5), (req: Request, res: Response)
   });
 });
 
+// GET /api/upload/download-sample - Download a sample text file
+router.get('/download-sample', (_req: Request, res: Response) => {
+  const content = 'This is a sample text file downloaded from the Automation Testing Playground.\nUse this file to practice file upload automation.\nTimestamp: ' + new Date().toISOString();
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Disposition', 'attachment; filename="sample-download.txt"');
+  res.send(content);
+});
+
 export default router;
