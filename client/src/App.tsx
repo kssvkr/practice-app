@@ -55,7 +55,7 @@ function App() {
               <Route path="/shadow-dom" element={<ShadowDom />} />
               <Route path="/keyboard-controls" element={<KeyboardControls />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/api-playground" element={<Login />} />
+              <Route path="/api-playground" element={<ApiPlayground />} />
               <Route path="/login" element={<Login />} />
               <Route path="/articles" element={<Articles />} />
               <Route path="/documentation" element={<Documentation />} />
