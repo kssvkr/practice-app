@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Iframe Content</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: #f0f4f8; }
+    h2 { color: #1976d2; margin-bottom: 12px; }
+    label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 4px; }
+    input { padding: 8px; border: 1px solid #ddd; border-radius: 6px; width: 100%; margin-bottom: 12px; }
+    button { padding: 8px 16px; background: #1976d2; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    #iframe-result { margin-top: 12px; color: #333; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h2 data-testid="iframe-heading">Inside Iframe</h2>
+  <label for="iframe-input" data-testid="iframe-input-label">Iframe Input</label>
+  <input id="iframe-input" type="text" placeholder="Type inside iframe" data-testid="iframe-input" data-test="iframe-input" aria-label="Iframe Input" title="Iframe Input">
+  <button data-testid="iframe-button" data-test="iframe-button" title="Iframe Submit" onclick="document.getElementById('iframe-result').textContent='Button clicked! Value: ' + document.getElementById('iframe-input').value">Submit</button>
+  <p id="iframe-result" data-testid="iframe-result"></p>
+</body>
+</html>
