@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+import path from 'path';
 import authRoutes from './routes/auth';
 import articleRoutes from './routes/articles';
 import uploadRoutes from './routes/upload';
@@ -25,21 +25,17 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Connect to MongoDB and start server
-const startServer = async () => {
-  try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/automation-playground';
-    await mongoose.connect(mongoUri);
-    console.log('Connected to MongoDB');
-  } catch (err) {
-    console.warn('MongoDB connection failed. Running without database - using in-memory storage.');
-  }
+// Serve React client static files (client/dist is two levels up from server/dist)
+const clientDist = path.join(__dirname, '../../client/dist');
+app.use(express.static(clientDist));
 
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-};
+// Catch-all: serve index.html for any unmatched route (supports React client-side routing)
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(clientDist, 'index.html'));
+});
 
-startServer();
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
 
 export default app;

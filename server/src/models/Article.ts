@@ -1,6 +1,5 @@
-import mongoose, { Document, Schema } from 'mongoose';
-
-export interface IArticle extends Document {
+export interface IArticle {
+  id: string;
   title: string;
   content: string;
   author: string;
@@ -8,15 +7,3 @@ export interface IArticle extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
-const articleSchema = new Schema<IArticle>(
-  {
-    title: { type: String, required: true },
-    content: { type: String, required: true },
-    author: { type: String, required: true },
-    tags: { type: [String], default: [] },
-  },
-  { timestamps: true }
-);
-
-export default mongoose.model<IArticle>('Article', articleSchema);
